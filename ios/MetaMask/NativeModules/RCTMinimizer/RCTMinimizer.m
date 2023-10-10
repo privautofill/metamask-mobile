@@ -18,9 +18,11 @@ RCT_EXPORT_METHOD(goBack)
   UIApplication* app = UIApplication.sharedApplication;
   UISystemNavigationAction* action = object_getIvar(app, sysNavIvar);
   if (!action) {
+    NSLog(@"action is not defined %@", action);
       return;
   }
   NSUInteger destination = action.destinations.firstObject.unsignedIntegerValue;
+  NSLog(@"destination is %lu", (unsigned long)destination);
   [action sendResponseForDestination:destination];
   return;
 }
