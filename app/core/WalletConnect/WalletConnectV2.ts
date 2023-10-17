@@ -84,6 +84,7 @@ class WalletConnect2Session {
     this.backgroundBridge = new BackgroundBridge({
       webview: null,
       url,
+      clientId: null,
       isWalletConnect: true,
       wcRequestActions: {
         approveRequest: this.approveRequest.bind(this),

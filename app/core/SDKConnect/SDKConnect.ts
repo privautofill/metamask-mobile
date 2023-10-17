@@ -61,7 +61,7 @@ export interface ConnectionProps {
   initialConnection?: boolean;
   originatorInfo?: OriginatorInfo;
   validUntil: number;
-  lastAuthorized: number; // timestamp of last received activity
+  lastAuthorized?: number; // timestamp of last received activity
 }
 export interface ConnectedSessions {
   [id: string]: Connection;
@@ -133,7 +133,7 @@ export class Connection extends EventEmitter2 {
   /*
    * Timestamp of last activity, used to check if channel is still active and to prevent showing OTP approval modal too often.
    */
-  lastAuthorized: number;
+  lastAuthorized?: number;
 
   /**
    * Prevent double sending 'authorized' message.
@@ -566,6 +566,7 @@ export class Connection extends EventEmitter2 {
     this.backgroundBridge = new BackgroundBridge({
       webview: null,
       isMMSDK: true,
+      clientId: null,
       // TODO: need to rewrite backgroundBridge to directly provide the origin instead of url format.
       url: PROTOCOLS.METAMASK + '://' + AppConstants.MM_SDK.SDK_REMOTE_ORIGIN,
       isRemoteConn: true,
