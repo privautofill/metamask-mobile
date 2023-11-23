@@ -226,7 +226,7 @@ const RootRPCMethodsUI = (props) => {
           props.navigation.navigate(
             ...createLedgerTransactionModalNavDetails({
               transactionId: transactionMeta.id,
-              deviceId: ledgerKeyring.deviceId,
+              deviceId: ledgerKeyring.bridge.getDeviceId(),
               // eslint-disable-next-line no-empty-function
               onConfirmationComplete: () => {},
               type: 'signTransaction',

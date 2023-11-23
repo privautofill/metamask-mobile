@@ -762,7 +762,7 @@ class Confirm extends PureComponent {
         this.props.navigation.navigate(
           ...createLedgerTransactionModalNavDetails({
             transactionId: transactionMeta.id,
-            deviceId: ledgerKeyring.deviceId,
+            deviceId: ledgerKeyring.bridge.getDeviceId(),
             onConfirmationComplete: async (approve) =>
               await this.onLedgerConfirmation(
                 approve,

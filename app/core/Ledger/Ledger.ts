@@ -4,10 +4,8 @@ import {
   SignTypedDataVersion,
 } from '@metamask/keyring-controller';
 import type BleTransport from '@ledgerhq/react-native-hw-transport-ble';
-import LedgerKeyring, {
-  SerializationOptions,
-} from '@consensys/ledgerhq-metamask-keyring';
 import ExtendedKeyringTypes from '../../constants/keyringTypes';
+import {LedgerKeyring, LedgerMobileBridge, LedgerBridgeKeyringOptions} from '@metamask/eth-ledger-bridge-keyring';
 
 /**
  * Get EthKeyringController from KeyringController
@@ -71,7 +69,7 @@ export const getLedgerKeyring = async (): Promise<LedgerKeyring> => {
  * @param keyringSerialized - The serialized keyring;
  */
 export const restoreLedgerKeyring = async (
-  keyringSerialized: SerializationOptions,
+  keyringSerialized: LedgerBridgeKeyringOptions,
 ): Promise<void> => {
   const keyringController = Engine.context.KeyringController;
   const ethKeyringController = getEthKeyringController();
@@ -93,8 +91,10 @@ export const connectLedgerHardware = async (
   deviceId: string,
 ): Promise<string> => {
   const keyring = await getLedgerKeyring();
-  keyring.setTransport(transport as unknown as any, deviceId);
-  const { appName } = await keyring.getAppAndVersion();
+  keyring.setHdPath("m/44'/60'/0'/0/0")
+  const bridge  = keyring.bridge as LedgerMobileBridge;
+  bridge.connect(transport as unknown as any, deviceId);
+  const { appName } = await bridge.getEthAppNameAndVersion();
   return appName;
 };
 
@@ -127,9 +127,9 @@ export const unlockLedgerDefaultAccount = async (): Promise<{
   await ethKeyringController.persistAllKeyrings();
   await syncKeyringState();
 
-  const address = await keyring.getDefaultAccount();
+  const address = await keyring.getFirstPage();
   return {
-    address,
+    address: address[0].address,
     balance: `0x0`,
   };
 };
@@ -139,7 +139,8 @@ export const unlockLedgerDefaultAccount = async (): Promise<{
  */
 export const openEthereumAppOnLedger = async (): Promise<void> => {
   const keyring = await getLedgerKeyring();
-  await keyring.openEthApp();
+  const bridge  = keyring.bridge as LedgerMobileBridge;
+  await bridge.openEthApp();
 };
 
 /**
@@ -147,7 +148,8 @@ export const openEthereumAppOnLedger = async (): Promise<void> => {
  */
 export const closeRunningAppOnLedger = async (): Promise<void> => {
   const keyring = await getLedgerKeyring();
-  await keyring.quitApp();
+  const bridge  = keyring.bridge as LedgerMobileBridge;
+  await bridge.closeApps();
 };
 
 /**
@@ -171,9 +173,10 @@ export const forgetLedger = async (): Promise<void> => {
  *
  * @returns The DeviceId
  */
-export const getDeviceId = async (): Promise<string> => {
-  const ledgerKeyring = await getLedgerKeyring();
-  return ledgerKeyring.deviceId;
+export const getDeviceId = async():Promise<string> => {
+  const keyring = await getLedgerKeyring();
+  const bridge  = keyring.bridge as LedgerMobileBridge;
+  return bridge.getDeviceId();
 };
 
 /**
@@ -192,9 +195,7 @@ export const ledgerSignTypedMessage = async (
   return await getEthKeyringController().signTypedMessage(
     {
       from: messageParams.from,
-      data: messageParams.data as
-        | Record<string, unknown>
-        | Record<string, unknown>[],
+      data: JSON.parse(messageParams.data as string)
     },
     { version },
   );

@@ -543,7 +543,7 @@ class Approve extends PureComponent {
         this.props.navigation.navigate(
           ...createLedgerTransactionModalNavDetails({
             transactionId: transaction.id,
-            deviceId: ledgerKeyring.deviceId,
+            deviceId: ledgerKeyring.bridge.getDeviceId(),
             onConfirmationComplete: (approve) =>
               this.onLedgerConfirmation(
                 approve,

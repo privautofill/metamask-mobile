@@ -563,7 +563,7 @@ class Transactions extends PureComponent {
     this.props.navigation.navigate(
       ...createLedgerTransactionModalNavDetails({
         transactionId: transaction.id,
-        deviceId: ledgerKeyring.deviceId,
+        deviceId: ledgerKeyring.bridge.getDeviceId(),
         onConfirmationComplete: onConfirmation,
         type: 'signTransaction',
         replacementParams: transaction?.replacementParams,
