@@ -81,7 +81,7 @@ import {
   LoggingControllerState,
   LoggingControllerActions,
 } from '@metamask/logging-controller';
-import LedgerKeyring from '@consensys/ledgerhq-metamask-keyring';
+import {LedgerKeyring, LedgerMobileBridge, LedgerTransportMiddleware} from '@metamask/eth-ledger-bridge-keyring';
 import Encryptor from './Encryptor';
 import {
   isMainnetByChainId,
@@ -423,7 +423,9 @@ class Engine {
     const qrKeyringBuilder = () => new QRHardwareKeyring();
     qrKeyringBuilder.type = QRHardwareKeyring.type;
 
-    const ledgerKeyringBuilder = () => new LedgerKeyring();
+    const middleware = new LedgerTransportMiddleware()
+    const bridge = new LedgerMobileBridge<LedgerMobileBridge>(middleware)
+    const ledgerKeyringBuilder = () => new LedgerKeyring(bridge);
     ledgerKeyringBuilder.type = LedgerKeyring.type;
 
     const keyringController = new KeyringController({
