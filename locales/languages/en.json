@@ -819,7 +819,7 @@
     "unkown_dapp": "DAPP name not available",
     "no_connections": "No connections found"
   },
-  "sdk_return_to_app_modal":{
+  "sdk_return_to_app_modal": {
     "title": "Return to app",
     "description": "Please return to the app to continue using their services."
   },
@@ -2325,7 +2325,10 @@
     "invalid_chain": "The %{rpcUrl} for this Chain ID does not match the chainid.network listing",
     "alert_recommend": "We recommend you",
     "alert_verify": "verify the chain ID",
-    "warning_subtext_new":{"1":"MetaMask doesn’t verify custom networks, so only approve networks you trust.", "2":"Learn more about network security risks and scams."} ,
+    "warning_subtext_new": {
+      "1": "MetaMask doesn’t verify custom networks, so only approve networks you trust.",
+      "2": "Learn more about network security risks and scams."
+    },
     "invalid_rpc_url": "This network URL doesn't match a known provider for this chain ID.",
     "invalid_chain_token_decimals": "It looks like this network's decimal doesn't match its chain ID.",
     "unrecognized_chain_name": "It looks like this network's display name doesn't match its chain ID.",
@@ -2600,6 +2603,8 @@
     "bluetooth_connection_failed_message": "Please make sure your Ledger is unlocked and your Bluetooth is enabled",
     "ethereum_app_open": "Ledger requires confirmation",
     "ethereum_app_open_message": "Please confirm on your device to open Ethereum app. Press OK once done.",
+    "app_not_closed": "App other than Ethereum is running",
+    "app_not_closed_error": "Please do following: \n1. cancel this dialog \n2. Close the running app on your Ledger device\n3.reopen Ethereum app on your Ledger devices",
     "ethereum_app_unconfirmed_error": "You have denied the request to open the Ethereum app.",
     "failed_to_open_eth_app": "Failed to open the Ethereum app.",
     "ethereum_app_open_error": "Please install/accept Ethereum app on your Ledger device.",
@@ -2607,6 +2612,9 @@
     "running_app_close_error": "Failed to close the running app on your Ledger device.",
     "ethereum_app_not_installed": "Ethereum app not installed.",
     "ethereum_app_not_installed_error": "Please install the Ethereum app on your Ledger device.",
+    "ethereum_app_not_open": "Ethereum app not open.",
+    "ethereum_app_not_open_error_1": "Please do the following to fix issue:\n1. Reject this transaction\n2. Open the Ethereum app on your ledger Device,\n3. Resumbit your transaction",
+    "ethereum_app_not_open_error": "Please open the Ethereum app on your Ledger device, and retry",
     "ledger_is_locked": "Ledger is locked",
     "unlock_ledger_message": "Please unlock your Ledger device",
     "cannot_get_account": "Cannot get account",

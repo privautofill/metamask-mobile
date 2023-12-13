@@ -138,6 +138,18 @@ const LedgerConfirmationModal = ({
             subtitle: strings('ledger.ethereum_app_not_installed_error'),
           });
           break;
+        case LedgerCommunicationErrors.EthAppNoOpen:
+          setErrorDetails({
+            title: strings('ledger.ethereum_app_not_open'),
+            subtitle: strings('ledger.ethereum_app_not_open_error_1'),
+          });
+          break;
+        case LedgerCommunicationErrors.AppNoClosed:
+          setErrorDetails({
+            title: strings('ledger.app_not_closed'),
+            subtitle: strings('ledger.app_not_closed_error'),
+          });
+          break;
         case LedgerCommunicationErrors.LedgerIsLocked:
           setErrorDetails({
             title: strings('ledger.ledger_is_locked'),
@@ -254,7 +266,9 @@ const LedgerConfirmationModal = ({
             isRetryHide={
               ledgerError === LedgerCommunicationErrors.UnknownError ||
               ledgerError === LedgerCommunicationErrors.NonceTooLow ||
-              ledgerError === LedgerCommunicationErrors.NotSupported
+              ledgerError === LedgerCommunicationErrors.NotSupported ||
+              ledgerError === LedgerCommunicationErrors.AppNoClosed ||
+              ledgerError === LedgerCommunicationErrors.EthAppNoOpen
             }
           />
         </View>

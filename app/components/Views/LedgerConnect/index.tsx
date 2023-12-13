@@ -161,6 +161,23 @@ const LedgerConnect = () => {
     });
   };
 
+  const handleErrorWithoutRetry = (
+    errorTitle: string,
+    errorSubtitle: string,
+  ) => {
+    setErrorDetails({
+      errorTitle,
+      errorSubtitle,
+      primaryButtonConfig: {
+        title: strings('transaction.cancel'),
+        onPress: () => {
+          setErrorDetails(undefined);
+          navigation.dispatch(StackActions.pop(2));
+        },
+      },
+    });
+  };
+
   const openHowToInstallEthApp = () => {
     navigation.push('Webview', {
       screen: 'SimpleWebview',
@@ -192,7 +209,18 @@ const LedgerConnect = () => {
             strings('ledger.ethereum_app_not_installed'),
             strings('ledger.ethereum_app_not_installed_error'),
           );
-
+          break;
+        case LedgerCommunicationErrors.EthAppNoOpen:
+          handleErrorWithRetry(
+            strings('ledger.ethereum_app_not_open'),
+            strings('ledger.ethereum_app_not_open_error'),
+          );
+          break;
+        case LedgerCommunicationErrors.AppNoClosed:
+          handleErrorWithoutRetry(
+            strings('ledger.app_not_closed'),
+            strings('ledger.app_not_closed_error'),
+          );
           break;
         case LedgerCommunicationErrors.UserRefusedConfirmation:
           navigation.navigate('SelectHardwareWallet');

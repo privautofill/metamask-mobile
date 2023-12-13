@@ -1,0 +1,21 @@
+diff --git a/node_modules/@ledgerhq/react-native-hw-transport-ble/lib/BleTransport.js b/node_modules/@ledgerhq/react-native-hw-transport-ble/lib/BleTransport.js
+index 4ecdc4c..11adc25 100644
+--- a/node_modules/@ledgerhq/react-native-hw-transport-ble/lib/BleTransport.js
++++ b/node_modules/@ledgerhq/react-native-hw-transport-ble/lib/BleTransport.js
+@@ -101,11 +101,11 @@ function open(deviceOrId, needsReconnect) {
+         let device;
+         (0, logs_1.log)(TAG, `open with ${deviceOrId}`);
+         if (typeof deviceOrId === "string") {
+-            if (transportsCache[deviceOrId]) {
+-                (0, logs_1.log)(TAG, "Transport in cache, using that.");
+-                clearDisconnectTimeout(deviceOrId);
+-                return transportsCache[deviceOrId];
+-            }
++            // if (transportsCache[deviceOrId]) {
++            //     (0, logs_1.log)(TAG, "Transport in cache, using that.");
++            //     clearDisconnectTimeout(deviceOrId);
++            //     return transportsCache[deviceOrId];
++            // }
+             (0, logs_1.log)(TAG, `Tries to open device: ${deviceOrId}`);
+             yield (0, awaitsBleOn_1.awaitsBleOn)(bleManagerInstance());
+             // Returns a list of known devices by their identifiers

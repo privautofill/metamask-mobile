@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { strings } from '../../../../locales/i18n';
 import { BluetoothInterface } from './useBluetoothDevices';
@@ -19,6 +20,8 @@ export enum LedgerCommunicationErrors {
   NotSupported = 'NotSupported',
   UnknownError = 'UnknownError',
   NonceTooLow = 'NonceTooLow',
+  EthAppNoOpen = 'EthAppNoOpen',
+  AppNoClosed = 'AppNoClosed',
 }
 class LedgerError extends Error {
   public readonly code: LedgerCommunicationErrors;
@@ -94,6 +97,8 @@ function useLedgerBluetooth(deviceId?: string): UseLedgerBluetoothHook {
         const BluetoothTransport: any = await import(
           '@ledgerhq/react-native-hw-transport-ble'
         );
+
+        console.log('Opening transport' + deviceId);
         transportRef.current = await BluetoothTransport.default.open(deviceId);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         transportRef.current?.on('disconnect', (e: any) => {
@@ -152,7 +157,15 @@ function useLedgerBluetooth(deviceId?: string): UseLedgerBluetoothHook {
         // Open Ethereum App
         try {
           setIsAppLaunchConfirmationNeeded(true);
-          await openEthereumAppOnLedger();
+
+          if (Platform.OS === 'android') {
+            throw new LedgerError(
+              strings('ledger.ethereum_app_not_open_error'),
+              LedgerCommunicationErrors.EthAppNoOpen,
+            );
+          } else {
+            await openEthereumAppOnLedger();
+          }
         } catch (e: any) {
           if (e.name === 'TransportStatusError') {
             switch (e.statusCode) {
@@ -171,6 +184,10 @@ function useLedgerBluetooth(deviceId?: string): UseLedgerBluetoothHook {
             }
           }
 
+          if (e instanceof LedgerError) {
+            throw e;
+          }
+
           throw new LedgerError(
             strings('ledger.ethereum_app_open_error'),
             LedgerCommunicationErrors.FailedToOpenApp,
@@ -184,18 +201,23 @@ function useLedgerBluetooth(deviceId?: string): UseLedgerBluetoothHook {
 
         return;
       } else if (appName !== 'Ethereum') {
-        try {
-          await closeRunningAppOnLedger();
-        } catch (e) {
+        if (Platform.OS === 'android') {
           throw new LedgerError(
-            strings('ledger.running_app_close_error'),
-            LedgerCommunicationErrors.FailedToCloseApp,
+            strings('ledger.app_not_closed'),
+            LedgerCommunicationErrors.AppNoClosed,
           );
+        } else {
+          try {
+            await closeRunningAppOnLedger();
+          } catch (e) {
+            throw new LedgerError(
+              strings('ledger.running_app_close_error'),
+              LedgerCommunicationErrors.FailedToCloseApp,
+            );
+          }
         }
-
         workflowSteps.current.push(processLedgerWorkflow);
         restartConnectionState.current.shouldRestartConnection = true;
-
         return;
       }
 
