@@ -479,20 +479,14 @@ const Tokens: React.FC<TokensI> = ({ tokens }) => {
   };
 
   const goToBuy = async () => {
-      try {
-        console.log('***kylan*** A doing it');
-        const rand = randomBytes(5000000);
-        const randString = rand.toString('hex');
-        for (let i = 1; i < 3; i++) {
-          const keyString = `kylan${i}`;
-          console.log('***kylan***', keyString);
-          await AsyncStorage.setItem(keyString, randString);
-          const value = await AsyncStorage.getItem(keyString);
-        }
-      } catch (err) {
-        console.error('***kylan*** 4 err', err);
-      } finally {
-        console.log('***kylan*** 5 done');
+      console.log('***kylan*** A doing it');
+      const rand = randomBytes(5000000);
+      const randString = rand.toString('hex');
+      for (let i = 1; i < 3; i++) {
+        const keyString = `kylan${i}`;
+        console.log('***kylan***', keyString);
+        await AsyncStorage.setItem(keyString, randString);
+        const value = await AsyncStorage.getItem(keyString);
       }
   };
 
