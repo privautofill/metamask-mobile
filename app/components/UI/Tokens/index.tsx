@@ -12,6 +12,8 @@ import Modal from 'react-native-modal';
 import { useSelector } from 'react-redux';
 import ActionSheet from '@metamask/react-native-actionsheet';
 import { strings } from '../../../../locales/i18n';
+import { randomBytes } from 'react-native-randombytes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   renderFromTokenMinimalUnit,
   addCurrencySymbol,
@@ -476,13 +478,22 @@ const Tokens: React.FC<TokensI> = ({ tokens }) => {
     );
   };
 
-  const goToBuy = () => {
-    navigation.navigate(Routes.RAMP.BUY);
-    trackEvent(MetaMetricsEvents.BUY_BUTTON_CLICKED, {
-      text: 'Buy Native Token',
-      location: 'Home Screen',
-      chain_id_destination: getDecimalChainId(chainId),
-    });
+  const goToBuy = async () => {
+      try {
+        console.log('***kylan*** A doing it');
+        const rand = randomBytes(5000000);
+        const randString = rand.toString('hex');
+        for (let i = 1; i < 3; i++) {
+          const keyString = `kylan${i}`;
+          console.log('***kylan***', keyString);
+          await AsyncStorage.setItem(keyString, randString);
+          const value = await AsyncStorage.getItem(keyString);
+        }
+      } catch (err) {
+        console.error('***kylan*** 4 err', err);
+      } finally {
+        console.log('***kylan*** 5 done');
+      }
   };
 
   const showDetectedTokens = () => {
