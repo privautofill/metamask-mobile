@@ -644,7 +644,10 @@ class Engine {
         );
       },
       clientId: AppConstants.SWAPS.CLIENT_ID,
-      infuraAPIKey: process.env.MM_INFURA_PROJECT_ID || NON_EMPTY,
+      legacyAPIEndpoint:
+        'https://gas.api.cx.metamask.io/networks/<chain_id>/gasPrices',
+      EIP1559APIEndpoint:
+        'https://gas.api.cx.metamask.io/networks/<chain_id>/suggestedGasFees',
     });
 
     const phishingController = new PhishingController({
@@ -1336,11 +1339,10 @@ class Engine {
       }
     }
 
-    this.datamodel = new ComposableController(
-      // @ts-expect-error The ComposableController needs to be updated to support BaseControllerV2
+    this.datamodel = new ComposableController({
       controllers,
-      this.controllerMessenger,
-    );
+      messenger: this.controllerMessenger,
+    });
     this.context = controllers.reduce<Partial<typeof this.context>>(
       (context, controller) => ({
         ...context,
