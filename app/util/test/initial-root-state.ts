@@ -5,6 +5,7 @@ import { initialState as initialSecurityState } from '../../reducers/security';
 import { initialState as initialInpageProvider } from '../../core/redux/slices/inpageProvider';
 import { initialState as initialSmartTransactions } from '../../core/redux/slices/smartTransactions';
 import { initialState as transactionMetrics } from '../../core/redux/slices/transactionMetrics';
+import { initialState as dappSpamFilter } from '../../core/redux/slices/dappSpamFilter';
 import initialBackgroundState from './initial-background-state.json';
 
 // Cast because TypeScript is incorrectly inferring the type of this JSON object
@@ -45,6 +46,7 @@ const initialRootState: RootState = {
   accounts: undefined,
   inpageProvider: initialInpageProvider,
   transactionMetrics,
+  dappSpamFilter,
 };
 
 export default initialRootState;

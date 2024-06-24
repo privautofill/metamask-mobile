@@ -110,6 +110,7 @@ import OnboardingSuccess from '../../Views/OnboardingSuccess';
 import DefaultSettings from '../../Views/OnboardingSuccess/DefaultSettings';
 import BasicFunctionalityModal from '../../UI/BasicFunctionality/BasicFunctionalityModal/BasicFunctionalityModal';
 import SmartTransactionsOptInModal from '../../Views/SmartTransactionsOptInModal/SmartTranactionsOptInModal';
+import DappSpamModal from '../../Views/DappSpamModal/DappSpamModal';
 
 const clearStackNavigatorOptions = {
   headerShown: false,
@@ -692,6 +693,10 @@ const App = ({ userLoggedIn }) => {
       <Stack.Screen
         name={Routes.SHEET.SHOW_NFT_DISPLAY_MEDIA}
         component={ShowDisplayNftMediaSheet}
+      />
+      <Stack.Screen
+        name={Routes.SHEET.DAPP_SPAM_MODAL}
+        component={DappSpamModal}
       />
     </Stack.Navigator>
   );
