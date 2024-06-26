@@ -110,6 +110,7 @@ import OnboardingSuccess from '../../Views/OnboardingSuccess';
 import DefaultSettings from '../../Views/OnboardingSuccess/DefaultSettings';
 import BasicFunctionalityModal from '../../UI/BasicFunctionality/BasicFunctionalityModal/BasicFunctionalityModal';
 import SmartTransactionsOptInModal from '../../Views/SmartTransactionsOptInModal/SmartTranactionsOptInModal';
+import { isNetworkUiRedesignEnabled } from '../../../util/networks';
 
 const clearStackNavigatorOptions = {
   headerShown: false,
@@ -874,6 +875,14 @@ const App = ({ userLoggedIn }) => {
               component={AddNetworkFlow}
               options={{ animationEnabled: true }}
             />
+            {isNetworkUiRedesignEnabled ? (
+              <Stack.Screen
+                name={Routes.EDIT_NETWORK}
+                component={AddNetworkFlow}
+                options={{ animationEnabled: true }}
+              />
+            ) : null}
+
             <Stack.Screen
               name={Routes.LOCK_SCREEN}
               component={LockScreen}
