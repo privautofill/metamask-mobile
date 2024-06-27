@@ -78,6 +78,8 @@ function loadStories() {
   require('../app/component-library/components-temp/Contracts/ContractBox/ContractBox.stories');
   require('../app/component-library/components-temp/CustomSpendCap/CustomSpendCap.stories');
   require('../app/component-library/components-temp/TagColored/TagColored.stories');
+  require('../app/component-library/components-temp/Price/AggregatedPercentage/AggregatedPercentage.stories');
+  require('../app/component-library/components-temp/Price/PercentageChange/PercentageChange.stories');
 }
 
 const stories = [
@@ -155,6 +157,8 @@ const stories = [
   '../app/component-library/components-temp/Contracts/ContractBox/ContractBox.stories',
   '../app/component-library/components-temp/CustomSpendCap/CustomSpendCap.stories',
   '../app/component-library/components-temp/TagColored/TagColored.stories',
+  '../app/component-library/components-temp/Price/AggregatedPercentage/AggregatedPercentage.stories.js',
+  '../app/component-library/components-temp/Price/PercentageChange/PercentageChange.stories.js',
 ];
 
 module.exports = {
